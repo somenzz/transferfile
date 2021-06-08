@@ -5,10 +5,10 @@ from pathlib import Path
 
 
 class Ftp(TransferFileInterface):
-    def __init__(self, hostname, username, password, port=21):
+    def __init__(self, hostname, username, password, port=21,encoding = "utf-8"):
         self.ftp = FTP(user=username, passwd=password)
-        self.port = port if port else 21
-        self.ftp.encoding = "utf-8"  # 解决中文乱码问题
+        port = port if port else 21
+        self.ftp.encoding = encoding  # 解决中文乱码问题
         self.ftp.connect(hostname, port)
         self.ftp.login(username, password)
 
@@ -34,3 +34,9 @@ class Ftp(TransferFileInterface):
         Path(localpath).mkdir(parents=True)
         with open(local_file_path, "wb") as writer:
             self.ftp.retrbinary(f"RETR {remote_file_path}", writer.write)
+
+    def close(self):
+        self.ftp.close()
+
+    def __del__(self):
+        self.ftp.close()

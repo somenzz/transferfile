@@ -32,8 +32,8 @@ LICENSE = license.read_text()
 PACKAGES = find_packages(exclude=["tests", "tests.*"])
 
 INSTALL_REQUIRES = [
-    'paramiko==2.7.2',
-    'scp==0.13.3'
+    'paramiko',
+    'scp'
 ]
 TEST_SUITE = "tests"
 TESTS_REQUIRE = []

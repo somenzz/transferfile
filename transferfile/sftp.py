@@ -44,3 +44,6 @@ class Sftp(TransferFileInterface):
 
     def get(self, localpath, remote_file_path):
         self._sftp.get(remote_file_path, localpath)
+
+    def __del__(self):
+        self._sftp.close()
