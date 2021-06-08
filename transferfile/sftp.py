@@ -1,7 +1,6 @@
 from transferfile.transfile_interface import TransferFileInterface
 
 import paramiko
-from paramiko import RSAKey
 
 
 class Sftp(TransferFileInterface):

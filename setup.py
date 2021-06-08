@@ -31,7 +31,10 @@ URL = "https://github.com/somenzz/transferfile"
 LICENSE = license.read_text()
 PACKAGES = find_packages(exclude=["tests", "tests.*"])
 
-INSTALL_REQUIRES = []
+INSTALL_REQUIRES = [
+    'paramiko==2.7.2',
+    'scp==0.13.3'
+]
 TEST_SUITE = "tests"
 TESTS_REQUIRE = []
 
