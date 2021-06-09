@@ -5,7 +5,7 @@ from transferfile.transfile_interface import TransferFileInterface
 
 class Rsync(TransferFileInterface):
     def __init__(
-        self, host, username=None, password=None, port=22, load_system_host_keys=False
+        self, host, username=None, password=None, port=22, load_system_host_keys=False,**kwargs
     ):
         assert load_system_host_keys, "请确保已经做了 ssh 授信"
         self.host = f"{username}@{host}"
@@ -16,6 +16,9 @@ class Rsync(TransferFileInterface):
         :param remotepath:Note that the filename should be included. Only specifying a directory may result in an error.
         :return:
         """
+        remote_file = Path(remote_file_path)
+        subprocess.run(f"mkdir -p {remote_file.parent.as_posix()}", shell=True)
+
         command = f"rsync -avzh {local_file_path} {self.host}:{remote_file_path}"
         r = subprocess.run(command, shell=True)
         if r.returncode == 0:
