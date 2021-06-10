@@ -9,7 +9,7 @@ class TestTransfer:
 
     def test_ftp_put(self):
         local = "/Users/aaron/gitee/somenzz/transferfile/tests/test_ftp.py"
-        remote = "/11/22/33/44/你好.txt"
+        remote = "/Users/aaron/Downloads/share/11/22/33/44/你好.txt"
         self.ftp.put(local, remote)
 
     # def test_ftp_get(self):

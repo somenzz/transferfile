@@ -24,7 +24,7 @@ pip install transferfile
 
 ##### ftp
 
-*请注意原路径和目标路径都是带文件名路径*
+*请注意原路径和目标路径都是带文件名的路径*
 
 传输 /path/to/src.txt 到 /path/to/dist.txt
 

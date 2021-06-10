@@ -14,8 +14,12 @@ class Ftp(TransferFileInterface):
         self.ftp.login(username, password)
 
     def chdir(self,directory):
+        while directory.endswith('/'):
+            directory = directory[:-1]
         dirs = directory.split('/')
-        dirs.pop(0)
+        if directory.startswith('/'):
+            dirs.pop(0)
+            self.ftp.cwd('/')
         self.ch_dir_rec(dirs)
 
         # Check if directory exists (in current location)
@@ -31,11 +35,8 @@ class Ftp(TransferFileInterface):
     def ch_dir_rec(self, descending_path_split):
         if len(descending_path_split) == 0:
             return
-
         next_level_directory = descending_path_split.pop(0)
-
         if not self.directory_exists(next_level_directory):
-            print(next_level_directory)
             self.ftp.mkd(next_level_directory)
         self.ftp.cwd(next_level_directory)
         self.ch_dir_rec(descending_path_split)
