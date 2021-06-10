@@ -65,5 +65,4 @@ class Scp(TransferFileInterface):
         self.create()
         self._scp.get(remote_file_path, local_file_path)
 
-    def __del__(self):
-        self._scp.close()
+
