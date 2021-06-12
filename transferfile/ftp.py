@@ -28,8 +28,13 @@ class Ftp(TransferFileInterface):
         filelist = []
         self.ftp.retrlines('LIST', filelist.append)
         for f in filelist:
-            if f.split()[-1] == directory and f.upper().startswith('D'):
+            path_info = f.split()
+            if path_info[-1] == directory and f.upper().startswith('D'):
                 return True
+            elif len(path_info) > 3:
+                #链接类型的目录
+                if path_info[-3] == directory and f.upper().startswith('L'):
+                    return True
         return False
 
     def ch_dir_rec(self, descending_path_split):

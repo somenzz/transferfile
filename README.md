@@ -102,6 +102,19 @@ client.put("/path/to/src.txt","/path/to/dist.txt")
 目前工作中暂时没有这个需求，都是生成好一个文件就传输这个文件，不需要上传整个目录。因此就没有实现。
 
 
+#### 更新日志
+
+0.5: ftp 增加链接类型目录的支持。
+
+ftp 创建目录前会判定目录是否存在，如果不存在就递归创建目录。增加链接型的目录的支持。
+
+例如 /data_file -> /home/user/data_file
+
+之前目标路径必须是 /home/user/data_file/path/dist.dat
+
+0.5 版本之后可以是 /data_file/path/dist.dat
+
+
 #### 联系我
 
 有问题，欢迎交流讨论。
