@@ -35,6 +35,9 @@ class Ftp(TransferFileInterface):
                 #链接类型的目录
                 if path_info[-3] == directory and f.upper().startswith('L'):
                     return True
+                # windows类型的目录
+                if path_info[-1] == directory and path_info[-2] == '<DIR>':
+                    return True
         return False
 
     def ch_dir_rec(self, descending_path_split):
