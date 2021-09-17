@@ -1,7 +1,7 @@
 from transferfile.transfile_interface import TransferFileInterface
 from pathlib import Path
 import paramiko
-
+import os
 
 class Sftp(TransferFileInterface):
     def __init__(
@@ -37,6 +37,25 @@ class Sftp(TransferFileInterface):
     def create(self):
         if not self._sftp:
             self._sftp = self._client.open_sftp()
+    
+    def mkdir_p(self,remote_path):
+        """
+        sftp 无法 mkdir -p，因此写一个递归创建目录功能的函数。
+        """
+        if remote_path == '/':
+            self._sftp.chdir(remote_path)
+            return
+        if remote_path == '':
+            return
+        try:
+            self._sftp.chdir(remote_path) 
+        except IOError:
+            dirname, basename = os.path.split(remote_path.rstrip('/'))
+            self.mkdir_p(dirname)
+            self._sftp.mkdir(basename)
+            self._sftp.chdir(basename)
+            return True
+      
 
 
     def put(self, local_file_path, remote_file_path):
@@ -46,8 +65,8 @@ class Sftp(TransferFileInterface):
         :return:
         """
         remote_file = Path(remote_file_path)
-        self._client.exec_command(f"mkdir -p {remote_file.parent.as_posix()}")
         self.create()
+        self.mkdir_p(remote_file.parent.as_posix())
         self._sftp.put(local_file_path, remote_file_path, confirm=True)
 
     def get(self, local_file_path, remote_file_path):
@@ -55,4 +74,5 @@ class Sftp(TransferFileInterface):
         local_file.parent.mkdir(parents=True, exist_ok=True)
         self.create()
         self._sftp.get(remote_file_path, local_file_path)
+
 
